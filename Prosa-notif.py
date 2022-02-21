@@ -60,13 +60,13 @@ def print_event_changes(old_data, new_data):
     new_headers = new_data['headers']
 
     print("Event changes has been made!")
+    toaster = ToastNotifier()
     for header in new_headers:
         if header not in old_headers:
             new_events_found = True
             msg = "New event found: " + header
             print(msg)
-            toaster = ToastNotifier()
-            toaster.show_toast(msg)
+            toaster.show_toast(msg, icon_path=None, threaded=True)
     if not new_events_found:
         print("Events have been removed but not created.")
 
