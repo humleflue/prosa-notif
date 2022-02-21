@@ -1,0 +1,1 @@
+pythonw ./prosa-notif.py
