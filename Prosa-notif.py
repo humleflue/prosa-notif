@@ -66,7 +66,7 @@ def print_event_changes(old_data, new_data):
             new_events_found = True
             msg = "New event found: " + header
             print(msg)
-            toaster.show_toast(msg, icon_path=None, threaded=True)
+            toaster.show_toast(msg, icon_path=None)
     if not new_events_found:
         print("Events have been removed but not created.")
 
