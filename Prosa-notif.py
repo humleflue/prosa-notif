@@ -12,6 +12,19 @@ from win10toast import ToastNotifier
 # 	hash: Contains the hash of the headers
 # }
 
+def main():
+    url = 'https://www.prosa.dk/arrangementer/'
+    page = requests.get(url)
+
+    soup = BeautifulSoup(page.content, 'html.parser')
+    new_data = extract_new_data(soup)
+    old_data = load_file_data_to_dict('data.json')
+    if changes_detected(new_data, old_data):
+        print_event_changes(old_data, new_data)
+        save_new_data(new_data)
+    else:
+        print("No changes detected.")
+
 
 def extract_new_data(soup):
     # Strip html of comments
@@ -66,7 +79,7 @@ def print_event_changes(old_data, new_data):
             new_events_found = True
             msg = "New event found: " + header
             print(msg)
-            toaster.show_toast(msg, icon_path=None)
+            toaster.show_toast(msg)
     if not new_events_found:
         print("Events have been removed but not created.")
 
@@ -76,15 +89,5 @@ def save_new_data(data):
     with open("data.json", "w") as outfile:
         json.dump(data, outfile)
 
-
-url = 'https://www.prosa.dk/arrangementer/'
-page = requests.get(url)
-
-soup = BeautifulSoup(page.content, 'html.parser')
-new_data = extract_new_data(soup)
-old_data = load_file_data_to_dict('data.json')
-if changes_detected(new_data, old_data):
-    print_event_changes(old_data, new_data)
-    save_new_data(new_data)
-else:
-    print("No changes detected.")
+if __name__ == '__main__':
+    main()
